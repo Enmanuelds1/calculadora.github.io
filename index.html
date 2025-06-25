@@ -3,406 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Combustible</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #4361ee;
-            --color-secondary: #3f37c9;
-            --color-accent: #4cc9f0;
-            --color-light: #f8f9fa;
-            --color-dark: #212529;
-            --gradient-bg: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: var(--gradient-bg);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .calculator {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            padding: 30px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            color: white;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .logo {
-            max-width: 180px;
-            height: auto;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            font-size: 1rem;
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--color-accent);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.3);
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            background: var(--color-accent);
-            color: var(--color-dark);
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 0 #3a86b4;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        button:hover {
-            background: #72efdd;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #3a86b4;
-        }
-
-        button:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #3a86b4;
-        }
-
-        .result {
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            text-align: center;
-            font-size: 1.2rem;
-            color: white;
-            animation: fadeIn 0.5s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            display: none;
-        }
-
-        .result h2 {
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .input-row input {
-            flex: 1;
-        }
-
-        .input-row button {
-            width: auto;
-            padding: 10px 15px;
-            margin-top: 0;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .small-button {
-            padding: 10px 15px !important;
-            font-size: 0.9rem !important;
-            margin-top: 5px !important;
-            width: auto !important;
-            display: inline-block !important;
-        }
-
-        .reset-button {
-            background: #dc3545 !important;
-            box-shadow: 0 4px 0 #a71d2a !important;
-        }
-
-        .reset-button:hover {
-            background: #e4606d !important;
-            box-shadow: 0 6px 0 #a71d2a !important;
-        }
-
-        .reset-button:active {
-            box-shadow: 0 2px 0 #a71d2a !important;
-        }
-
-        .total-display {
-            margin-top: 10px;
-            font-weight: 600;
-            display: none;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 480px) {
-            .calculator {
-                padding: 20px;
-                border-radius: 15px;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            button {
-                padding: 14px;
-            }
-            
-            .input-row {
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .input-row button {
-                width: 100%;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .button-group button {
-                width: 100%;
-            }
-        }
-    </style>
+    <title>Barbería Elegance | Corte Caballero & Tratamientos Dama</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="calculator">
-        <div class="logo-container">
-            <!-- Reemplaza con tu logo -->
-            <img src="foto/11.png" alt="Logo" class="logo">
+    <header>
+        <div class="container">
+            <h1>Barbería <span>Elegance</span></h1>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#galeria">Galería</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
         </div>
-        
-        <h1>Calculadora de Combustible</h1>
-        
-        <div class="input-group">
-            <label for="combustible">Combustible Habilitado (Lts)</label>
-            <div class="input-row">
-                <input type="number" id="combustible-input" placeholder="Ej: 120" step="0.01">
-                <button id="agregar-combustible" class="small-button">Agregar</button>
-            </div>
-            <div class="button-group">
-                <button id="reset-combustible" class="small-button reset-button">Reiniciar Combustible</button>
-            </div>
-            <div id="combustible-total" class="total-display">Total: 0.00 Lts</div>
-            <input type="hidden" id="combustible" value="0">
-        </div>
-        
-        <div class="input-group">
-            <label for="residuo">Residuo en Tanque (Lts)</label>
-            <input type="number" id="residuo" placeholder="Ej: 15" step="0.01">
-        </div>
-        
-        <div class="input-group">
-            <label for="consumo">Índice de Consumo (Km/Lt)</label>
-            <input type="number" id="consumo" placeholder="Ej: 8.5" step="0.1">
-        </div>
-        
-        <div class="input-group">
-            <label for="km">Kilómetros Recorridos (Km)</label>
-            <div class="input-row">
-                <input type="number" id="km-input" placeholder="Ej: 350" step="0.01">
-                <button id="agregar-km" class="small-button">Agregar</button>
-            </div>
-            <div class="button-group">
-                <button id="reset-km" class="small-button reset-button">Reiniciar Kilómetros</button>
-            </div>
-            <div id="km-total" class="total-display">Total: 0.00 Km</div>
-            <input type="hidden" id="km" value="0">
-        </div>
-        
-        <div class="button-group">
-            <button id="mostrar-total" class="small-button">Mostrar Total</button>
-            <button id="calcular">Calcular Combustible</button>
-        </div>
-        
-        <div class="result" id="resultado">
-            <h2>Combustible Restante</h2>
-            <p id="result-value">0.00 Litros</p>
-        </div>
-    </div>
+    </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const btnCalcular = document.getElementById('calcular');
-            const btnMostrarTotal = document.getElementById('mostrar-total');
-            const btnAgregarKm = document.getElementById('agregar-km');
-            const btnAgregarCombustible = document.getElementById('agregar-combustible');
-            const btnResetKm = document.getElementById('reset-km');
-            const btnResetCombustible = document.getElementById('reset-combustible');
-            const resultadoDiv = document.getElementById('resultado');
-            const resultValue = document.getElementById('result-value');
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Estilo y Elegancia para Caballeros y Damas</h2>
+                <p>En Barbería Elegance combinamos tradición y modernidad para ofrecerte los mejores cortes y tratamientos capilares.</p>
+                <a href="#agendar" class="btn">Agendar Cita</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="services">
+        <div class="container">
+            <h2>Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-cut"></i>
+                    <h3>Cortes para Caballero</h3>
+                    <p>Cortes clásicos y modernos realizados por expertos barberos con las últimas tendencias.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-spa"></i>
+                    <h3>Tratamientos para Dama</h3>
+                    <p>Tratamientos capilares especializados para mantener tu cabello saludable y radiante.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-air-freshener"></i>
+                    <h3>Experiencia Premium</h3>
+                    <p>Ambiente relajante con atención personalizada y productos de la más alta calidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria" class="gallery">
+        <div class="container">
+            <h2>Nuestros Trabajos</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Corte clásico">
+                    <div class="overlay">Corte Clásico</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Corte moderno">
+                    <div class="overlay">Corte Moderno</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1596704017256-dfb9e6c5dc0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Tratamiento capilar">
+                    <div class="overlay">Tratamiento Capilar</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Barba cuidado">
+                    <div class="overlay">Cuidado de Barba</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Coloración profesional">
+                    <div class="overlay">Coloración Profesional</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Peinado elegante">
+                    <div class="overlay">Peinado Elegante</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="agendar" class="booking">
+        <div class="container">
+            <h2>Agendar Cita</h2>
+            <form id="booking-form">
+                <div class="form-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Teléfono</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="service">Tipo de Servicio</label>
+                    <select id="service" required>
+                        <option value="">Seleccione un servicio</option>
+                        <option value="Corte para Caballero">Corte para Caballero</option>
+                        <option value="Tratamiento Capilar para Dama">Tratamiento Capilar para Dama</option>
+                        <option value="Corte y Barba">Corte y Barba</option>
+                        <option value="Coloración">Coloración</option>
+                        <option value="Peinado Especial">Peinado Especial</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Enviar Solicitud</button>
+            </form>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Barbería Elegance</h3>
+                    <p>Especialistas en cortes para caballero y tratamientos capilares para dama.</p>
+                    <p><i class="fas fa-phone"></i> +53 54325288</p>
+                    <p><i class="fas fa-clock"></i> Lunes a Sábado: 9:00 AM - 7:00 PM</p>
+                </div>
+                <div class="social-links">
+                    <h3>Síguenos</h3>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Barbería Elegance. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+                        </html>
+
+/* Estilos generales */
+:root {
+    --primary-color: #d4af37;
+    --secondary-color: #1a1a1a;
+    --dark-color: #121212;
+    --light-color: #f4f4f4;
+    --text-color: #e0e0e0;
+    --overlay-color: rgba(0, 0, 0, 0.7);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--dark-color);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3, h4 {
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+ul {
+    list-style: none;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--primary-color);
+    color: var(--dark-color);
+    padding: 0.8rem 1.8rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #e6c04d;
+    transform: translateY(-3px);
+}
+
+/* Header */
+header {
+    background-color: var(--secondary-color);
+    padding: 1.5rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+    font-size: 2rem;
+    display: inline-block;
+}
+
+header h1 span {
+    color: var(--primary-color);
+}
+
+header nav {
+    display: inline-block;
+    float: right;
+}
+
+header nav ul {
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 2rem;
+}
+
+header nav ul li a {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(var(--overlay-color), var(--overlay-color)), 
+                url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-top: 80px;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* Services Section */
+.services {
+    padding: 5rem 0;
+    background-color: var(--secondary-color);
+    text-align: center;
+}
+
+.services h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.service-card {
+    background-color: var(--dark-color);
+    padding: 2rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+}
+
+.service-card i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Gallery Section */
+.gallery {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.gallery h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    height: 250px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--overlay-color);
+    padding: 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .overlay {
+    transform: translateY(0);
+}
+
+/* Booking Section */
+.booking {
+    padding: 5rem 0;
+    background-color: var(--secondary-color);
+    text-align: center;
+}
+
+.booking h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--primary-color);
+}
+
+#booking-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--dark-color);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-color);
+    padding: 3rem 0 1rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-info h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-info p {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.footer-info i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+}
+
+.social-links h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.social-links a {
+    display: inline-block;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header nav {
+        float: none;
+        margin-top: 1rem;
+    }
+
+    header nav ul {
+        justify-content: center;
+    }
+
+    header nav ul li {
+        margin: 0 0.5rem;
+    }
+
+    .hero h2 {
+        font-size: 2.2rem;
+    }
+}
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            // Variables para acumular valores
-            let totalKm = 0;
-            let totalCombustible = 0;
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
             
-            // Elementos de visualización
-            const kmTotalDisplay = document.getElementById('km-total');
-            const combustibleTotalDisplay = document.getElementById('combustible-total');
-            
-            // Agregar kilómetros
-            btnAgregarKm.addEventListener('click', function() {
-                const kmInput = parseFloat(document.getElementById('km-input').value) || 0;
-                if(kmInput > 0) {
-                    totalKm += kmInput;
-                    document.getElementById('km').value = totalKm;
-                    kmTotalDisplay.textContent = `Total: ${totalKm.toFixed(2)} Km`;
-                    kmTotalDisplay.style.display = 'block';
-                    document.getElementById('km-input').value = '';
-                }
-            });
-            
-            // Reiniciar kilómetros
-            btnResetKm.addEventListener('click', function() {
-                totalKm = 0;
-                document.getElementById('km').value = 0;
-                kmTotalDisplay.textContent = 'Total: 0.00 Km';
-                kmTotalDisplay.style.display = 'none';
-                document.getElementById('km-input').value = '';
-            });
-            
-            // Agregar combustible
-            btnAgregarCombustible.addEventListener('click', function() {
-                const combustibleInput = parseFloat(document.getElementById('combustible-input').value) || 0;
-                if(combustibleInput > 0) {
-                    totalCombustible += combustibleInput;
-                    document.getElementById('combustible').value = totalCombustible;
-                    combustibleTotalDisplay.textContent = `Total: ${totalCombustible.toFixed(2)} Lts`;
-                    combustibleTotalDisplay.style.display = 'block';
-                    document.getElementById('combustible-input').value = '';
-                }
-            });
-            
-            // Reiniciar combustible
-            btnResetCombustible.addEventListener('click', function() {
-                totalCombustible = 0;
-                document.getElementById('combustible').value = 0;
-                combustibleTotalDisplay.textContent = 'Total: 0.00 Lts';
-                combustibleTotalDisplay.style.display = 'none';
-                document.getElementById('combustible-input').value = '';
-            });
-            
-            // Mostrar totales
-            btnMostrarTotal.addEventListener('click', function() {
-                alert(`Totales:\nKilómetros: ${totalKm.toFixed(2)} Km\nCombustible: ${totalCombustible.toFixed(2)} Lts`);
-            });
-            
-            // Calcular combustible restante
-            btnCalcular.addEventListener('click', function() {
-                // Obtener valores de los inputs
-                const combustible = parseFloat(document.getElementById('combustible').value) || 0;
-                const residuo = parseFloat(document.getElementById('residuo').value) || 0;
-                const consumo = parseFloat(document.getElementById('consumo').value) || 1;
-                const km = parseFloat(document.getElementById('km').value) || 0;
-                
-                // Calcular
-                const totalCombustibleDisponible = combustible + residuo;
-                const combustibleConsumido = km / consumo;
-                const combustibleRestante = totalCombustibleDisponible - combustibleConsumido;
-                
-                // Mostrar resultado
-                resultValue.textContent = combustibleRestante.toFixed(2) + ' Litros';
-                resultadoDiv.style.display = 'block';
-                
-                // Cambiar color según el nivel
-                if(combustibleRestante < totalCombustibleDisponible * 0.2) {
-                    resultadoDiv.style.backgroundColor = 'rgba(220, 53, 69, 0.3)';
-                    resultadoDiv.style.borderColor = 'rgba(220, 53, 69, 0.5)';
-                } else if(combustibleRestante < totalCombustibleDisponible * 0.5) {
-                    resultadoDiv.style.backgroundColor = 'rgba(255, 193, 7, 0.3)';
-                    resultadoDiv.style.borderColor = 'rgba(255, 193, 7, 0.5)';
-                } else {
-                    resultadoDiv.style.backgroundColor = 'rgba(40, 167, 69, 0.3)';
-                    resultadoDiv.style.borderColor = 'rgba(40, 167, 69, 0.5)';
-                }
-            });
-            
-            // Validación para evitar números negativos
-            document.querySelectorAll('input[type="number"]').forEach(input => {
-                input.addEventListener('change', function() {
-                    if(this.value < 0) this.value = 0;
-                    if(this.id === 'consumo' && this.value <= 0) this.value = 1;
-                });
-            });
-            
-            // Permitir agregar con Enter
-            document.getElementById('km-input').addEventListener('keypress', function(e) {
-                if(e.key === 'Enter') {
-                    btnAgregarKm.click();
-                }
-            });
-            
-            document.getElementById('combustible-input').addEventListener('keypress', function(e) {
-                if(e.key === 'Enter') {
-                    btnAgregarCombustible.click();
-                }
+            window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
             });
         });
-    </script>
-</body>
-</html>
+    });
+
+    // Booking form submission
+    const bookingForm = document.getElementById('booking-form');
+    
+    bookingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const service = document.getElementById('service').value;
+        
+        // Format the WhatsApp message
+        const message = `Hola, quisiera agendar una cita en Barbería Elegance:\n\n` +
+                         `*Nombre:* ${name}\n` +
+                         `*Teléfono:* ${phone}\n` +
+                         `*Servicio:* ${service}\n\n` +
+                         `Por favor confirmar disponibilidad.`;
+        
+        // Encode the message for URL
+        const encodedMessage = encodeURIComponent(message);
+        
+        // Create WhatsApp link
+        const whatsappLink = `https://wa.me/5354325288?text=${encodedMessage}`;
+        
+        // Open WhatsApp in a new tab
+        window.open(whatsappLink, '_blank');
+        
+        // Reset the form
+        bookingForm.reset();
+        
+        // Show confirmation (you could replace this with a fancier modal)
+        alert('Gracias por tu solicitud. Serás redirigido a WhatsApp para confirmar tu cita.');
+    });
+
+    // Add animation to elements when they come into view
+    const animateOnScroll = function() {
+        const elements = document.querySelectorAll('.service-card, .gallery-item');
+        
+        elements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+            
+            if (elementPosition < screenPosition) {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            }
+        });
+    };
+    
+    // Set initial state for animated elements
+    document.querySelectorAll('.service-card, .gallery-item').forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'all 0.6s ease';
+    });
+    
+    // Run on load and scroll
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+});
+                        
